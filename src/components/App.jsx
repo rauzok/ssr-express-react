@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage/HomePage';
 import PostsPage from "./PostsPage/PostsPage";
 import AlbumsPage from "./AlbumsPage/AlbumsPage";
-import '../client/styles.css'
 
 const App = () => {
     return (
