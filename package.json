@@ -36,7 +36,7 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "14.21.3"
+    "node": "16.x"
   },
   "devServer": {
     "static": "client"
