@@ -29,6 +29,7 @@
     "client": "webpack --config webpack.client.config.js --mode development --watch",
     "server": "webpack --config webpack.server.config.js --mode development --watch",
     "startServer": "nodemon build/server.bundle.js",
+    "dev": "webpack --mode development",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
