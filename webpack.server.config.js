@@ -40,6 +40,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'src/client/favicon.ico', to: 'favicon.ico' },
+                { from: 'src/client/styles.css', to: 'styles.css' },
             ],
         }),
     ],
