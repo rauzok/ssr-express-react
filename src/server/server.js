@@ -56,5 +56,5 @@ app.get('*', async (req, res) => {
 });
 
 app.listen(9200, () => {
-    console.log('Server is listening on port 8080');
+    console.log('Server is listening on port 9200');
 });
