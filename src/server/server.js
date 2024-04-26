@@ -21,7 +21,7 @@ app.get('*', async (req, res) => {
             store.dispatch({type: 'ADD', payload: response.data}));
 
         const appMarkup = ReactDOMServer.renderToString(
-            <StaticRouter location={req.url}>
+            <StaticRouter location={req.url} context={{}}>
                 <Provider store={store}>
                     <App />
                 </Provider>

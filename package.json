@@ -2,6 +2,7 @@
   "name": "test-task-proxy-seller",
   "version": "0.1.0",
   "private": true,
+  "main": "build/server.bundle.js",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.17.0",
@@ -25,16 +26,20 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run startServer\"",
     "build": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "webpack --config webpack.client.config.js --mode development --watch",
-    "server": "webpack --config webpack.server.config.js --mode development --watch",
+    "client": "webpack --config webpack.client.config.js --mode development",
+    "server": "webpack --config webpack.server.config.js --mode development",
     "startServer": "nodemon build/server.bundle.js",
     "dev": "webpack --mode development",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "engines": {
+    "node": "14.21.3"
+  },
   "devServer": {
-    "static": "public"
+    "static": "client"
   },
   "eslintConfig": {
     "extends": [
