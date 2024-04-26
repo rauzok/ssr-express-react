@@ -28,11 +28,12 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\" \"npm run startServer\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run nodemonServer\"",
     "build": "concurrently \"npm run server\" \"npm run client\"",
     "client": "webpack --config webpack.client.config.js --mode development",
     "server": "webpack --config webpack.server.config.js --mode development",
-    "startServer": "nodemon build/server.bundle.js",
-    "dev": "webpack --mode development",
+    "startServer": "node build/server.bundle.js",
+    "nodemonServer": "nodemon build/server.bundle.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
