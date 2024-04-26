@@ -32,13 +32,9 @@
     "build": "concurrently \"npm run server\" \"npm run client\"",
     "client": "webpack --config webpack.client.config.js --mode development",
     "server": "webpack --config webpack.server.config.js --mode development",
-    "startServer": "node build/server.bundle.js",
-    "nodemonServer": "nodemon build/server.bundle.js",
+    "startServer": "nodemon build/server.bundle.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "engines": {
-    "node": "14.21.3"
   },
   "devServer": {
     "static": "client"
