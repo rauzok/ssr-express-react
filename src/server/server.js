@@ -13,12 +13,20 @@ const store = configureStore({
 });
 
 const app = express();
+const PORT = process.env.PORT || 9200;
 app.use(express.static('build'));
+
+const apiCache = new Map();
 
 app.get('*', async (req, res) => {
     try {
-        await getApiData(req.url === '/' ? '/users' : req.url).then(response=>
-            store.dispatch({type: 'ADD', payload: response.data}));
+        let responseData;
+        if (apiCache.has(req.url)) {
+        } else {
+            responseData = await getApiData(req.url === '/' ? '/users' : req.url);
+            apiCache.set(req.url, responseData);
+            store.dispatch({ type: 'ADD', payload: responseData.data });
+        }
 
         const appMarkup = ReactDOMServer.renderToString(
             <StaticRouter location={req.url} context={{}}>
@@ -55,6 +63,6 @@ app.get('*', async (req, res) => {
     }
 });
 
-app.listen(9200, () => {
-    console.log('Server is listening on port 9200');
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
 });
