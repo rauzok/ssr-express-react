@@ -27,7 +27,7 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "start": "nodemon build/server.bundle.js",
+    "start": "node build/server.bundle.js",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run nodemonServer\"",
     "build": "concurrently \"npm run server\" \"npm run client\"",
     "client": "webpack --config webpack.client.config.js --mode development",
