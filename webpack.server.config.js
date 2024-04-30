@@ -4,6 +4,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: './src/server/server.js',
     target: 'node',
+    externals: {
+        express: 'express',
+    },
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'server.bundle.js',
@@ -39,6 +42,7 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
+                { from: 'src/client/index.html', to: 'index.html' },
                 { from: 'src/client/favicon.ico', to: 'favicon.ico' },
                 { from: 'src/client/styles.css', to: 'styles.css' },
             ],
@@ -46,8 +50,5 @@ module.exports = {
     ],
     stats: {
         errorDetails: true
-    },
-    externals: {
-        express: 'express',
     },
 };
