@@ -30,8 +30,8 @@
     "start": "node build/server.bundle.js",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run startServer\"",
     "build": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "webpack --config webpack.client.config.js --mode development",
-    "server": "webpack --config webpack.server.config.js --mode development",
+    "client": "webpack --config webpack.client.config.js",
+    "server": "webpack --config webpack.server.config.js",
     "startServer": "nodemon build/server.bundle.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
