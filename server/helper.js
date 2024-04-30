@@ -14,11 +14,3 @@ export const getApiData = async (path) => {
             throw error;
         });
 };
-
-export default function parseJSON(string) {
-    try {
-        return JSON.parse(string);
-    } catch (e) {
-        return false;
-    }
-}

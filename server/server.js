@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import App from '../src/components/App';
 import rootReducer from "../src/redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
-import parseJSON, { getApiData } from "./helper";
+import { getApiData } from "./helper";
 import fs from 'fs';
 
 const store = configureStore({
@@ -15,7 +15,7 @@ const store = configureStore({
 
 const app = express();
 const PORT = process.env.PORT || 9200;
-app.use(express.static('build',  { index: false }));
+app.use(express.static('build'));
 
 const templatesDir = __dirname + '/';
 
@@ -24,6 +24,7 @@ app.get('*', async (req, res) => {
         const response = await getApiData(req.url === '/' ? '/users' : req.url);
         store.dispatch({ type: 'ADD', payload: response });
 
+        console.log('response', response)
         fs.readFile(templatesDir + 'index.html', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading index.html file:', err);

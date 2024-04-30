@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run build\" \"npm run startServer\"",
-    "dev": "concurrently \"npm run build\" \"npm run startServerDev\"",
+    "startDev": "concurrently \"npm run build\" \"npm run startServerDev\"",
     "build": "webpack --config webpack.server.config.js --mode development",
     "startServer": "node build/server.bundle.js",
     "startServerDev": "nodemon build/server.bundle.js",
