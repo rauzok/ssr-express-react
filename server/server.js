@@ -15,7 +15,7 @@ const store = configureStore({
 
 const app = express();
 const PORT = process.env.PORT || 9200;
-app.use(express.static('build'));
+app.use(express.static('build', { index: false }));
 
 const templatesDir = __dirname + '/';
 
@@ -43,7 +43,7 @@ app.get('*', async (req, res) => {
             const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
             const finalHtml = data
                 .replace('{{SSR_CONTENT}}', appMarkup)
-                .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`)
+                .replace('{PRELOADED_STATE}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`)
                 .replace('{{TITLE}}', title)
                 .replace('{{DESCRIPTION}}', description);
 
