@@ -18,8 +18,8 @@ const HomePage = () => {
                                     <div>{user.name}</div>
 
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                        <a href={`users/${user.id}/posts`}>Posts</a>
-                                        <a href={`users/${user.id}/albums`}>Albums</a>
+                                        <a href={`/users/${user.id}/posts`}>Posts</a>
+                                        <a href={`/users/${user.id}/albums`}>Albums</a>
                                     </div>
                                 </div>
                             ))}

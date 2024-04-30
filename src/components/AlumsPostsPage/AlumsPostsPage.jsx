@@ -1,13 +1,20 @@
 import React from 'react';
 import { useSelector } from "react-redux";
+import SearchComponent from "../SearchUser/SearchComponent";
 
 const AlumsPostsPage = () => {
     const list = useSelector(state => state.list);
     const title = useSelector(state => state.title);
+    const urlTitle = useSelector(state => state.urlTitle);
+    const usersList = useSelector(state => state.usersList);
 
     return (
         <>
-            <h1 style={{marginBottom: '50px', textAlign: "center", textTransform: 'capitalize'}}>{title}</h1>
+            <div style={{marginBottom: '50px', textAlign: "center"}}>
+                <h1 style={{textTransform: 'capitalize'}}>{title}</h1>
+
+                <SearchComponent usersList={usersList} urlTitle={urlTitle}/>
+            </div>
 
             {
                 list?.length

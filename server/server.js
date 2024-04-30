@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import App from '../src/components/App';
 import rootReducer from "../src/redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
-import { getApiData } from "./helper";
+import {getApiData, getUsersData} from "./helper";
 import fs from 'fs';
 
 const store = configureStore({
@@ -21,23 +21,33 @@ const templatesDir = __dirname + '/';
 
 app.get('*', async (req, res) => {
     try {
-        const payload = {};
+        const payload = {
+            title: 'Users',
+            list: [],
+            urlTitle: '',
+            usersList: [],
+        };
         const metaData = {
             title: 'Users',
             description: 'About users'
         }
-        const responseData = await getApiData(req.url === '/' ? '/users' : req.url);
-        payload.list = responseData;
+        const responseList = await getApiData(req.url === '/' ? '/users' : req.url);
+        payload.list = responseList;
 
         if (req.url !== '/') {
             const usersListResponse = await getApiData('/users');
-            const userData = usersListResponse.find((user) => user.id === responseData[0].userId);
+            const {
+                currentUserData,
+                filteredUsersList,
+            } = getUsersData(usersListResponse, responseList[0].userId)
             const urlTitle = req.url.split('/')[3];
 
-            metaData.title = [userData.name, urlTitle].join(' ');
-            metaData.description = ['About', userData.name, urlTitle].join(' ');
-            payload.title = [userData.name, '-', urlTitle].join(' ');
-            payload.usersList = usersListResponse;
+            metaData.title = [currentUserData.name, urlTitle].join(' ');
+            metaData.description = ['About', currentUserData.name, urlTitle].join(' ');
+            payload.title = [currentUserData.name, '-', urlTitle].join(' ');
+            payload.urlTitle = urlTitle;
+            payload.list = responseList;
+            payload.usersList = filteredUsersList;
         }
 
         store.dispatch({ type: 'ADD', payload });
