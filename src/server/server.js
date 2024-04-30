@@ -15,21 +15,19 @@ const store = configureStore({
 
 const app = express();
 const PORT = process.env.PORT || 9200;
-app.use(express.static('build'));
+app.use(express.static('build',  { index: false }));
 
 const templatesDir = __dirname + '/../src/client/';
 
 app.get('*', async (req, res) => {
     try {
-        await getApiData(req.url === '/' ? '/users' : req.url).then(response=> {
-            console.log('response', response)
-            store.dispatch({type: 'ADD', payload: response.data})
-        })
+        const response = await getApiData(req.url === '/' ? '/users' : req.url);
+        store.dispatch({ type: 'ADD', payload: response });
 
         fs.readFile(templatesDir + 'index.html', 'utf8', (err, data) => {
             if (err) {
-                console.error('Помилка при зчитуванні файлу index.html:', err);
-                return res.status(500).send('Помилка сервера');
+                console.error('Error reading index.html file:', err);
+                return res.status(500).send('Server error');
             }
 
             const appMarkup = ReactDOMServer.renderToString(
