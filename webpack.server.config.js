@@ -46,5 +46,8 @@ module.exports = {
     ],
     stats: {
         errorDetails: true
-    }
+    },
+    externals: {
+        express: 'express',
+    },
 };

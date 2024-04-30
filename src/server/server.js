@@ -16,17 +16,10 @@ const app = express();
 const PORT = process.env.PORT || 9200;
 app.use(express.static('build'));
 
-const apiCache = new Map();
-
 app.get('*', async (req, res) => {
     try {
-        let responseData;
-        if (apiCache.has(req.url)) {
-        } else {
-            responseData = await getApiData(req.url === '/' ? '/users' : req.url);
-            apiCache.set(req.url, responseData);
-            store.dispatch({ type: 'ADD', payload: responseData.data });
-        }
+        const responseData= await getApiData(req.url === '/' ? '/users' : req.url);
+        store.dispatch({ type: 'ADD', payload: responseData.data });
 
         const appMarkup = ReactDOMServer.renderToString(
             <StaticRouter location={req.url} context={{}}>
