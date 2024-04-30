@@ -7,6 +7,7 @@ import App from '../components/App';
 import rootReducer from "../redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { getApiData } from "./helper";
+import fs from 'fs';
 
 const store = configureStore({
     reducer: rootReducer,
@@ -16,6 +17,8 @@ const app = express();
 const PORT = process.env.PORT || 9200;
 app.use(express.static('build'));
 
+const templatesDir = __dirname + '/../src/client/';
+
 app.get('*', async (req, res) => {
     try {
         await getApiData(req.url === '/' ? '/users' : req.url).then(response=> {
@@ -23,37 +26,30 @@ app.get('*', async (req, res) => {
             store.dispatch({type: 'ADD', payload: response.data})
         })
 
+        fs.readFile(templatesDir + 'index.html', 'utf8', (err, data) => {
+            if (err) {
+                console.error('Помилка при зчитуванні файлу index.html:', err);
+                return res.status(500).send('Помилка сервера');
+            }
 
-        const appMarkup = ReactDOMServer.renderToString(
-            <StaticRouter location={req.url} context={{}}>
-                <Provider store={store}>
-                    <App />
-                </Provider>
-            </StaticRouter>
-        );
+            const appMarkup = ReactDOMServer.renderToString(
+                <StaticRouter location={req.url} context={{}}>
+                    <Provider store={store}>
+                        <App />
+                    </Provider>
+                </StaticRouter>
+            );
 
-        const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
-        const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
+            const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
+            const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
 
-        res
-            .status(200)
-            .send(`
-                <!DOCTYPE html>
-                <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <link rel="icon" href="/favicon.ico">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>${title}</title>
-                        <meta name="description" content="${description}">
-                    </head>
-                    <body>
-                        <div id="root">${appMarkup}</div>
-                        <script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())};</script>
-                        <script src="/client.bundle.js"></script>
-                    </body>
-                </html>
-            `);
+            res
+                .status(200)
+                .send(data.replace('{{SSR_CONTENT}}', appMarkup)
+                    .replace('{{PRELOADED_STATE}}', JSON.stringify(store.getState()))
+                    .replace('{{TITLE}}', title)
+                    .replace('{{DESCRIPTION}}', description));
+        });
     } catch (e) {
         console.error('Server error', e);
         res.status(500).send('Server error');

@@ -2,7 +2,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: 'server.bundle.js',
+    entry: './src/server/server.js',
     target: 'node',
     externals: {
         express: 'express',
