@@ -67,17 +67,23 @@ const SearchComponent = ({ urlTitle, usersList }) => {
                     className={'dropdown-input'}
                 />
 
-                <div className={`dropdown-list ${isDropdownActive && filteredUsers.length ? 'active' : ''}`}>
-                    {filteredUsers.map((user, key) =>
-                        <a
-                            key={user[[sortField]] + key}
-                            href={`/users/${user.id}/${urlTitle}`}
-                            className={'dropdown-list-option'}
-                        >
-                            {user[[sortField]]}
-                        </a>
-                    )}
-                </div>
+                {
+                    isDropdownActive
+                        ?
+                            <div className={'dropdown-list'}>
+                                {filteredUsers.map((user, key) =>
+                                    <a
+                                        key={user[[sortField]] + key}
+                                        href={`/users/${user.id}/${urlTitle}`}
+                                        className={'dropdown-list-option'}
+                                    >
+                                        {user[[sortField]]}
+                                    </a>
+                                )}
+                            </div>
+                        : null
+
+                }
             </div>
 
             <button

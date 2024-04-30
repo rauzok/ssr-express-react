@@ -46,16 +46,12 @@
     left: 0;
     z-index: 1000;
     width: 100%;
-    display: none;
+    display: flex;
+    flex-direction: column;
     margin-top: 4px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.dropdown-list.active {
-    display: flex;
-    flex-direction: column;
 }
 
 .dropdown-list-option {
