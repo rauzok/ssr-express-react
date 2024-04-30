@@ -7,7 +7,7 @@ import App from '../components/App';
 import rootReducer from "../redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { getApiData } from "./helper";
-import fs from 'fs';
+// import fs from 'fs';
 
 const store = configureStore({
     reducer: rootReducer,
@@ -21,8 +21,11 @@ app.use(express.static('build'));
 
 app.get('*', async (req, res) => {
     try {
-        const responseData= await getApiData(req.url === '/' ? '/users' : req.url);
-        store.dispatch({ type: 'ADD', payload: responseData.data });
+        await getApiData(req.url === '/' ? '/users' : req.url).then(response=> {
+            console.log('response', response)
+            store.dispatch({type: 'ADD', payload: response.data})
+        })
+
 
         const appMarkup = ReactDOMServer.renderToString(
             <StaticRouter location={req.url} context={{}}>
@@ -35,23 +38,25 @@ app.get('*', async (req, res) => {
         const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
         const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
 
-        res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <link rel="icon" href="/favicon.ico">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${title}</title>
-                    <meta name="description" content="${description}">
-                </head>
-                <body>
-                    <div id="root">${appMarkup}</div>
-                    <script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())};</script>
-                    <script src="/client.bundle.js"></script>
-                </body>
-            </html>
-        `);
+        res
+            .status(200)
+            .send(`
+                <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <link rel="icon" href="/favicon.ico">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>${title}</title>
+                        <meta name="description" content="${description}">
+                    </head>
+                    <body>
+                        <div id="root">${appMarkup}</div>
+                        <script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())};</script>
+                        <script src="/client.bundle.js"></script>
+                    </body>
+                </html>
+            `);
     } catch (e) {
         console.error('Server error', e);
         res.status(500).send('Server error');
