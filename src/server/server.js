@@ -7,6 +7,7 @@ import App from '../components/App';
 import rootReducer from "../redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { getApiData } from "./helper";
+import fs from 'fs';
 
 const store = configureStore({
     reducer: rootReducer,
@@ -15,6 +16,8 @@ const store = configureStore({
 const app = express();
 const PORT = process.env.PORT || 9200;
 app.use(express.static('build'));
+
+// const styles = fs.readFileSync('../../client/styles.css', 'utf8');
 
 app.get('*', async (req, res) => {
     try {
@@ -38,7 +41,6 @@ app.get('*', async (req, res) => {
                 <head>
                     <meta charset="UTF-8">
                     <link rel="icon" href="/favicon.ico">
-                    <link rel="stylesheet" type="text/css" href="/styles.css">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>${title}</title>
                     <meta name="description" content="${description}">
