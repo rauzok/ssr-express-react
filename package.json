@@ -26,11 +26,11 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "start": "concurrently node build/server.bundle.js \"npm run server\"",
-    "dev": "concurrently \"npm run server\" \"npm run startServer\"",
-    "build": "npm run server",
-    "server": "webpack --config webpack.server.config.js --mode development",
-    "startServer": "nodemon build/server.bundle.js",
+    "start": "concurrently \"npm run build\" \"npm run startServer\"",
+    "dev": "concurrently \"npm run build\" \"npm run startServerDev\"",
+    "build": "webpack --config webpack.server.config.js --mode development",
+    "startServer": "node build/server.bundle.js",
+    "startServerDev": "nodemon build/server.bundle.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
