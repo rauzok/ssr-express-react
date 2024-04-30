@@ -2,17 +2,18 @@ import React from 'react';
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
-    const usersList = useSelector(state => state.list);
+    const list = useSelector(state => state.list);
+    const title = useSelector(state => state.title);
 
     return (
         <>
-            <h1 style={{marginBottom: '50px', textAlign: "center"}}>Users</h1>
+            <h1 style={{marginBottom: '50px', textAlign: "center"}}>{title}</h1>
 
             {
-                usersList?.length
+                list?.length
                     ?
                         <div style={{display: 'flex', gap: '50px', flexDirection: 'column',}}>
-                            {usersList?.map(user => (
+                            {list?.map(user => (
                                 <div key={user.id} style={{display: 'flex', gap: '50px', flexDirection: 'column', padding: '30px', backgroundColor: '#E7E9EB'}}>
                                     <div>{user.name}</div>
 

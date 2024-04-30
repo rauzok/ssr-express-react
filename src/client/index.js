@@ -17,7 +17,7 @@ hydrateRoot(
     document.getElementById('root'),
     <React.StrictMode>
         <BrowserRouter>
-            <Provider store={clientStore} serverState={preloadedState}>
+            <Provider store={clientStore}>
                 <App />
             </Provider>
         </BrowserRouter>

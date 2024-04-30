@@ -21,8 +21,26 @@ const templatesDir = __dirname + '/';
 
 app.get('*', async (req, res) => {
     try {
-        const response = await getApiData(req.url === '/' ? '/users' : req.url);
-        store.dispatch({ type: 'ADD', payload: response });
+        const payload = {};
+        const metaData = {
+            title: 'Users',
+            description: 'About users'
+        }
+        const responseData = await getApiData(req.url === '/' ? '/users' : req.url);
+        payload.list = responseData;
+
+        if (req.url !== '/') {
+            const usersListResponse = await getApiData('/users');
+            const userData = usersListResponse.find((user) => user.id === responseData[0].userId);
+            const urlTitle = req.url.split('/')[3];
+
+            metaData.title = [userData.name, urlTitle].join(' ');
+            metaData.description = ['About', userData.name, urlTitle].join(' ');
+            payload.title = [userData.name, '-', urlTitle].join(' ');
+            payload.usersList = usersListResponse;
+        }
+
+        store.dispatch({ type: 'ADD', payload });
 
         fs.readFile(templatesDir + 'index.html', 'utf8', (err, data) => {
             if (err) {
@@ -38,11 +56,9 @@ app.get('*', async (req, res) => {
                 </StaticRouter>
             );
 
-            const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
-            const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
             const finalHtml = data
-                .replace('{{TITLE}}', title)
-                .replace('{{DESCRIPTION}}', description)
+                .replace('{{TITLE}}', metaData.title)
+                .replace('{{DESCRIPTION}}', metaData.description)
                 .replace('{{SSR_CONTENT}}', appMarkup)
                 .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`);
 

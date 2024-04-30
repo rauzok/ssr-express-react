@@ -6,7 +6,7 @@ const dataReducer = (state = initialState, action) => {
         case 'ADD':
             return {
                 ...state,
-                list: action.payload,
+                ...action.payload,
             };
         default:
             return state;
