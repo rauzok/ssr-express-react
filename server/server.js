@@ -42,7 +42,7 @@ app.get('*', async (req, res) => {
             const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
             const finalHtml = data
                 .replace('{{SSR_CONTENT}}', appMarkup)
-                .replace('{PRELOADED_STATE}', `window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}`)
+                .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`)
                 .replace('{{TITLE}}', title)
                 .replace('{{DESCRIPTION}}', description);
 
