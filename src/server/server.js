@@ -7,7 +7,6 @@ import App from '../components/App';
 import rootReducer from "../redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { getApiData } from "./helper";
-// import fs from 'fs';
 
 const store = configureStore({
     reducer: rootReducer,
@@ -16,8 +15,6 @@ const store = configureStore({
 const app = express();
 const PORT = process.env.PORT || 9200;
 app.use(express.static('build'));
-
-// const styles = fs.readFileSync('../../client/styles.css', 'utf8');
 
 app.get('*', async (req, res) => {
     try {
