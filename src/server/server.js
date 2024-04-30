@@ -42,13 +42,13 @@ app.get('*', async (req, res) => {
 
             const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
             const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
+            const finalHtml = data
+                .replace('{{SSR_CONTENT}}', appMarkup)
+                .replace('{{PRELOADED_STATE}}', JSON.stringify(store.getState()))
+                .replace('{{TITLE}}', title)
+                .replace('{{DESCRIPTION}}', description);
 
-            res
-                .status(200)
-                .send(data.replace('{{SSR_CONTENT}}', appMarkup)
-                    .replace('{{PRELOADED_STATE}}', JSON.stringify(store.getState()))
-                    .replace('{{TITLE}}', title)
-                    .replace('{{DESCRIPTION}}', description));
+            res.status(200).send(finalHtml);
         });
     } catch (e) {
         console.error('Server error', e);
