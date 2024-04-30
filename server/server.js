@@ -3,10 +3,10 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { Provider } from 'react-redux';
-import App from '../components/App';
-import rootReducer from "../redux/rootReducer";
+import App from '../src/components/App';
+import rootReducer from "../src/redux/rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
-import { getApiData } from "./helper";
+import parseJSON, { getApiData } from "./helper";
 import fs from 'fs';
 
 const store = configureStore({
@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 9200;
 app.use(express.static('build',  { index: false }));
 
-const templatesDir = __dirname + '/../src/client/';
+const templatesDir = __dirname + '/';
 
 app.get('*', async (req, res) => {
     try {
@@ -42,7 +42,7 @@ app.get('*', async (req, res) => {
             const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
             const finalHtml = data
                 .replace('{{SSR_CONTENT}}', appMarkup)
-                .replace('{{PRELOADED_STATE}}', JSON.stringify(store.getState()))
+                .replace('{{PRELOADED_STATE}}', `window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}`)
                 .replace('{{TITLE}}', title)
                 .replace('{{DESCRIPTION}}', description);
 

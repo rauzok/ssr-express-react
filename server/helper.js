@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getDataUrl } from "../constants/urls.constants";
+import { getDataUrl } from "../src/constants/urls.constants";
 
 export const getApiData = async (path) => {
     const url = `${getDataUrl}${path}`;
@@ -14,3 +14,11 @@ export const getApiData = async (path) => {
             throw error;
         });
 };
+
+export default function parseJSON(string) {
+    try {
+        return JSON.parse(string);
+    } catch (e) {
+        return false;
+    }
+}

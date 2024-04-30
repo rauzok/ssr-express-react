@@ -2,9 +2,8 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = [
-    // Server-side webpack configuration
     {
-        entry: './src/server/server.js',
+        entry: './server/server.js',
         target: 'node',
         externals: {
             express: 'express',

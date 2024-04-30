@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import rootReducer from "../redux/rootReducer";
@@ -13,8 +13,8 @@ const clientStore = configureStore({
     preloadedState,
 });
 
-const root = createRoot(document.getElementById('root'));
-root.render(
+hydrateRoot(
+    document.getElementById('root'),
     <React.StrictMode>
         <BrowserRouter>
             <Provider store={clientStore} serverState={preloadedState}>
