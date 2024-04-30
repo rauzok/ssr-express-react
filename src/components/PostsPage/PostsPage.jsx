@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import {Card} from "antd";
 
 const PostsPage = () => {
     const postsList = useSelector(state => state.list);
@@ -8,11 +7,23 @@ const PostsPage = () => {
     return (
         <>
             <h1 style={{marginBottom: '50px', textAlign: "center"}}>Posts</h1>
-            <div style={{width: '100%'}}>
+
+            <div style={{display: 'flex', gap: '50px', flexDirection: 'column',}}>
                 {postsList.map(post => (
-                    <Card key={post.id} title={post.title} style={{ margin: '50px 0'}}>
-                        {post.body}
-                    </Card>
+                    <div
+                        key={post.id}
+                        title={post.title}
+                        style={{
+                            display: 'flex',
+                            gap: '50px',
+                            flexDirection: 'column',
+                            padding: '30px',
+                            margin: '50px 0',
+                            backgroundColor: '#E7E9EB'
+                        }}
+                    >
+                        <div>{post.title}</div>
+                    </div>
                 ))}
             </div>
         </>

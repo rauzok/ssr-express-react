@@ -24,7 +24,6 @@ app.get('*', async (req, res) => {
         const response = await getApiData(req.url === '/' ? '/users' : req.url);
         store.dispatch({ type: 'ADD', payload: response });
 
-        console.log('response', response)
         fs.readFile(templatesDir + 'index.html', 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading index.html file:', err);
@@ -42,10 +41,10 @@ app.get('*', async (req, res) => {
             const title = req.url === '/' ? 'Users' : req.url.split('/')[3];
             const description = 'About ' + (req.url === '/' ? 'Users' : req.url.split('/')[3]);
             const finalHtml = data
-                .replace('{{SSR_CONTENT}}', appMarkup)
-                .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`)
                 .replace('{{TITLE}}', title)
-                .replace('{{DESCRIPTION}}', description);
+                .replace('{{DESCRIPTION}}', description)
+                .replace('{{SSR_CONTENT}}', appMarkup)
+                .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`);
 
             res.status(200).send(finalHtml);
         });

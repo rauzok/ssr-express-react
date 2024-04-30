@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import { Card } from "antd";
 
 const HomePage = () => {
     const usersList = useSelector(state => state.list);
@@ -12,14 +11,16 @@ const HomePage = () => {
             {
                 usersList?.length
                     ?
-                        <div style={{display: 'flex', gap: '50px', flexDirection: 'column'}}>
+                        <div style={{display: 'flex', gap: '50px', flexDirection: 'column',}}>
                             {usersList?.map(user => (
-                                <Card key={user.id} title={<div>{user.name}</div>}>
+                                <div key={user.id} style={{display: 'flex', gap: '50px', flexDirection: 'column', padding: '30px', backgroundColor: '#E7E9EB'}}>
+                                    <div>{user.name}</div>
+
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <a href={`users/${user.id}/posts`}>Posts</a>
                                         <a href={`users/${user.id}/albums`}>Albums</a>
                                     </div>
-                                </Card>
+                                </div>
                             ))}
                         </div>
                     :   null
