@@ -22,6 +22,12 @@ module.exports = [
                         loader: 'babel-loader',
                         options: {
                             presets: ['@babel/preset-env', '@babel/preset-react'],
+                            plugins: [
+                                '@babel/plugin-transform-class-properties',
+                                '@babel/plugin-transform-numeric-separator',
+                                '@babel/plugin-transform-optional-chaining',
+                                '@babel/plugin-transform-private-methods',
+                            ]
                         }
                     }
                 },
