@@ -70,7 +70,7 @@ app.get('*', async (req, res) => {
                 .replace('{{TITLE}}', metaData.title)
                 .replace('{{DESCRIPTION}}', metaData.description)
                 .replace('{{SSR_CONTENT}}', appMarkup)
-                .replace('{{PRELOADED_STATE}}', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`);
+                .replace('{{PRELOADED_STATE}}', `<script id='preloadState'>window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>`);
 
             res.status(200).send(finalHtml);
         });
