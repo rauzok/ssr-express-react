@@ -54,6 +54,7 @@ module.exports = [
         },
     },
     {
+        mode: 'production',
         entry: './src/client/index.js',
         output: {
             path: path.resolve(__dirname, 'build'),

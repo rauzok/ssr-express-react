@@ -3,6 +3,7 @@ import React, {
     useState,
     useEffect,
 } from 'react';
+const sortField = 'username';
 
 const SearchComponent = ({ urlTitle, usersList }) => {
     const inputRef = useRef();
@@ -12,8 +13,6 @@ const SearchComponent = ({ urlTitle, usersList }) => {
     const [searchUser, setSearchUser] = useState('');
     const [sortDirection, setSortDirection] = useState('asc');
     const [isDropdownActive, setIsDropdownActive] = useState(false);
-
-    const sortField = 'username';
 
     useEffect(() => {
         const handleClickOutside = (event) => {
